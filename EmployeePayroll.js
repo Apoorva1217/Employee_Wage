@@ -1,5 +1,8 @@
 //UC12 Ability to create Employee Payroll Data with id, name and salary
 //UC13 Ability to extend Employee Payroll Data to store gender and start date
+//UC14 Ability to check the name starts with capital and has at least 3 characters 
+// - Use Regex Pattern 
+// - Use Try Catch in case of Error
 
 class EmployeepayrollData {
     //property
@@ -20,7 +23,10 @@ class EmployeepayrollData {
     //getter and setter method
     get name() { return this._name; }
     set name(name) {
-        this._name = name;
+        let nameRegex = RegExp('^[A-Z]{1}[a-z]{2,}$');
+        if (nameRegex.test(name))
+            this._name = name;
+        else throw 'Name is Incorrect!';
     }
 
     //method
@@ -33,7 +39,13 @@ class EmployeepayrollData {
 
 let employeepayrollData = new EmployeepayrollData(1, "Mark", 300000);
 console.log(employeepayrollData.toString());
-employeepayrollData.name = "john";
-console.log(employeepayrollData.toString());
+
+try {
+    employeepayrollData.name = "john";
+    console.log(employeepayrollData.toString());
+} catch (e) {
+    console.error(e);
+}
+
 employeepayrollData = new EmployeepayrollData(1, "Terisa", 400000, "F", new Date());
 console.log(employeepayrollData.toString());
