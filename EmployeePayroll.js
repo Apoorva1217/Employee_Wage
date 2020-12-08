@@ -1,16 +1,11 @@
 //UC12 Ability to create Employee Payroll Data with id, name and salary
 //UC13 Ability to extend Employee Payroll Data to store gender and start date
-//UC14 Ability to check the name starts with capital and has at least 3 characters 
+//UC14 Ability to check the name starts with capital and has at least 3 characters
+//UC15 Ability to check the employee id and salary are non zero positive number, the gender is M or F and date is not a future date 
 // - Use Regex Pattern 
 // - Use Try Catch in case of Error
 
 class EmployeepayrollData {
-    //property
-    id;
-    salary;
-    gender;
-    startDate;
-
     //constrctor
     constructor(...params) {
         this.id = params[0];
@@ -21,6 +16,13 @@ class EmployeepayrollData {
     }
 
     //getter and setter method
+    get id() { return this._id; }
+    set id(id) {
+        let idRegex = RegExp('^[1-9]{1}[0-9]*$');
+        if (idRegex.test(id))
+            this._id = id;
+        else throw 'Id is Incorrect!';
+    }
     get name() { return this._name; }
     set name(name) {
         let nameRegex = RegExp('^[A-Z]{1}[a-z]{2,}$');
@@ -28,6 +30,27 @@ class EmployeepayrollData {
             this._name = name;
         else throw 'Name is Incorrect!';
     }
+    get salary() { return this._salary; }
+    set salary(salary) {
+        let salaryRegex = RegExp('^[1-9]{1}[0-9]*$');
+        if (salaryRegex.test(salary))
+            this._salary = salary;
+        else throw 'Invalid Salary!';
+    }
+    get gender() { return this._gender; }
+    set gender(gender) {
+        let genderRegex = RegExp('^[MFmf]{1}$');
+        if (genderRegex.test(gender))
+            this._gender = gender;
+        else throw 'Invalid Gender Input!';
+    }
+    get startDate() { return this._startDate; }
+    set startDate(startDate) {
+        if (startDate <= new Date())
+            this._startDate = startDate;
+        else throw 'Date is Incorrect!';
+    }
+
 
     //method
     toString() {
@@ -37,8 +60,15 @@ class EmployeepayrollData {
     }
 }
 
-let employeepayrollData = new EmployeepayrollData(1, "Mark", 300000);
+let employeepayrollData = new EmployeepayrollData(1, "Mark", 300000, "M", new Date());
 console.log(employeepayrollData.toString());
+
+try {
+    employeepayrollData.id = "-121";
+    console.log(employeepayrollData.toString());
+} catch (e) {
+    console.error(e);
+}
 
 try {
     employeepayrollData.name = "john";
@@ -47,5 +77,23 @@ try {
     console.error(e);
 }
 
-employeepayrollData = new EmployeepayrollData(1, "Terisa", 400000, "F", new Date());
-console.log(employeepayrollData.toString());
+try {
+    employeepayrollData.salary = "-300000";
+    console.log(employeepayrollData.toString());
+} catch (e) {
+    console.error(e);
+}
+
+try {
+    employeepayrollData.gender = " ";
+    console.log(employeepayrollData.toString());
+} catch (e) {
+    console.error(e);
+}
+
+try {
+    employeepayrollData.startDate = "December 12,2021";
+    console.log(employeepayrollData.toString());
+} catch (e) {
+    console.error(e);
+}
